@@ -15,45 +15,67 @@ using namespace std;
 * Constructor 
 */
 Geometry::Geometry(){
-	_numVertices[RED_CUBE] = 36;
-	_verticesData[RED_CUBE] = new Vertex[36];
-	_verticesData[RED_CUBE][0].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][1].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][2].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][3].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][4].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][5].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][6].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][7].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][8].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][9].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][10].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][11].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][12].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][13].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][14].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][15].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][16].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][17].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][18].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][19].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][20].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][21].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][22].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][23].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][24].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][25].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][26].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][27].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][28].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][29].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][30].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][31].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][32].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][33].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][34].setPosition(0, 0, 0);
-	_verticesData[RED_CUBE][35].setPosition(0, 0, 0);
+	loadCube(BLUE_CUBE, glm::vec4(0, 0, 255, 255));
+	loadCube(RED_CUBE, glm::vec4(255, 0, 0, 255));
+	loadCube(WHITE_CUBE, glm::vec4(255, 255, 255, 255));
+	
 }
+void Geometry::loadCube(int i, glm::vec4 color)
+{
+		_numVertices[i] = 36;
+		_verticesData[i] = new Vertex[36];
+
+		_verticesData[i][0].setPosition(0, 0, 0);
+		_verticesData[i][1].setPosition(1, 0, 0);
+		_verticesData[i][2].setPosition(0, 1, 0);
+
+		_verticesData[i][3].setPosition(1, 0, 0);
+		_verticesData[i][4].setPosition(1, 1, 0);
+		_verticesData[i][5].setPosition(0, 1, 0);
+
+		_verticesData[i][6].setPosition(1, 0, 0);
+		_verticesData[i][7].setPosition(1, 0, 1);
+		_verticesData[i][8].setPosition(1, 1, 0);
+
+		_verticesData[i][9].setPosition(1, 0, 1);
+		_verticesData[i][10].setPosition(1, 1, 1);
+		_verticesData[i][11].setPosition(1, 1, 0);
+
+		_verticesData[i][12].setPosition(1, 0, 1);
+		_verticesData[i][13].setPosition(0, 0, 1);
+		_verticesData[i][14].setPosition(1, 1, 1);
+
+		_verticesData[i][15].setPosition(0, 0, 1);
+		_verticesData[i][16].setPosition(0, 1, 1);
+		_verticesData[i][17].setPosition(1, 1, 1);
+
+		_verticesData[i][18].setPosition(0, 0, 1);
+		_verticesData[i][19].setPosition(0, 0, 0);
+		_verticesData[i][20].setPosition(0, 1, 1);
+
+		_verticesData[i][21].setPosition(0, 0, 0);
+		_verticesData[i][22].setPosition(0, 1, 0);
+		_verticesData[i][23].setPosition(0, 1, 1);
+
+		_verticesData[i][24].setPosition(0, 1, 0);
+		_verticesData[i][25].setPosition(1, 1, 0);
+		_verticesData[i][26].setPosition(0, 1, 1);
+
+		_verticesData[i][27].setPosition(1, 1, 0);
+		_verticesData[i][28].setPosition(1, 1, 1);
+		_verticesData[i][29].setPosition(0, 1, 1);
+
+		_verticesData[i][30].setPosition(0, 0, 0);
+		_verticesData[i][31].setPosition(0, 0, 1);
+		_verticesData[i][32].setPosition(1, 0, 1);
+
+		_verticesData[i][33].setPosition(0, 0, 0);
+		_verticesData[i][34].setPosition(1, 0, 1);
+		_verticesData[i][35].setPosition(1, 0, 0);
+
+		for (int j = 0; j < 36; j++) _verticesData[i][j].setColor[color];
+}
+
 
 
 Geometry::~Geometry(){
@@ -67,7 +89,7 @@ void Geometry::loadGameElements(char fileName[100]){
 	/* Text format
 	<number of game elements>
 	<type of game element> <vec3 position> <angle> <vec3 rotation> <vec3 scale>	
-	*/
+	*/  
 	int numGameElements;
 	GameObject tempObject;
 	glm::vec3 vector3fElements;
@@ -80,7 +102,7 @@ void Geometry::loadGameElements(char fileName[100]){
 		for (int i = 0; i < numGameElements; i++) {
 			file >> tempObject._objectType >> tempObject._translate.x >> tempObject._translate.y >> tempObject._translate.z >> tempObject._angle
 				>> tempObject._rotation.x >> tempObject._rotation.y >> tempObject._rotation.z >> tempObject._scale.x >> tempObject._scale.y >> tempObject._scale.z;
-
+			_listOfObjects.push_back(tempObject);
 		}
 		file.close();
 	}
@@ -124,3 +146,4 @@ int Geometry::getNumGameElements() {
 GameObject & Geometry::getGameElement(int objectID) {
 	return (_listOfObjects[objectID]);
 }
+

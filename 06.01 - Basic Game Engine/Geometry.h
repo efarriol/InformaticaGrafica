@@ -24,5 +24,6 @@ public:
 	int getNumVertices(int objectID);
 	int getNumGameElements();
 	GameObject & getGameElement(int objectID);
+	void loadCube(int cube, glm::vec4 color);
 };
 
