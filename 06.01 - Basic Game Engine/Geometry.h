@@ -6,7 +6,8 @@
 #define BLUE_CUBE 0
 #define RED_CUBE 1
 #define WHITE_CUBE 2
-#define NUMBASICOBJECTS 3
+#define WHITE_CUBE2 2
+#define NUMBASICOBJECTS 4
 
 //This class stores and manipulates all the objects loaded from the text file
 class Geometry
@@ -14,7 +15,7 @@ class Geometry
 	Vertex * _verticesData[NUMBASICOBJECTS];
 	int _numVertices[NUMBASICOBJECTS];
 	std::vector <GameObject> _listOfObjects;
-	
+	int max, min;
 
 public:
 	Geometry();
@@ -25,5 +26,6 @@ public:
 	int getNumGameElements();
 	GameObject & getGameElement(int objectID);
 	void loadCube(int cube, glm::vec4 color);
+	void loadPyramid(int pyramid, glm::vec4 color);
 };
 

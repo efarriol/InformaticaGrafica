@@ -135,18 +135,19 @@ void Game::executePlayerCommands() {
 	}
 
 	if (_inputManager.isKeyPressed(SDLK_w)) {
-		
+		(_gameElements.getGameElement(1))._translate = (_gameElements.getGameElement(1))._translate - glm::vec3(0, -0.01, 0);
 	}
 
 	if (_inputManager.isKeyPressed(SDLK_a)) {
+		(_gameElements.getGameElement(1))._translate = (_gameElements.getGameElement(1))._translate - glm::vec3(0.01, 0, 0);
 		
 	}
 	if (_inputManager.isKeyPressed(SDLK_s)) {
-		
+		(_gameElements.getGameElement(1))._translate = (_gameElements.getGameElement(1))._translate - glm::vec3(0, 0.01, 0);
 	}
 
 	if (_inputManager.isKeyPressed(SDLK_d)) {
-		
+		(_gameElements.getGameElement(1))._translate = (_gameElements.getGameElement(1))._translate - glm::vec3(-0.01, 0, 0);
 	}
 	
 
@@ -156,7 +157,14 @@ void Game::executePlayerCommands() {
 * Update the game objects based on the physics
 */
 void Game::doPhysics() {
+	static int counter = 0;
 
+	if (counter == 1) {
+		(_gameElements.getGameElement(0))._angle = (_gameElements.getGameElement(0))._angle + 5;
+		(_gameElements.getGameElement(0))._rotation.z = 1.0f;
+		counter = 0;
+	}
+	counter++;
 
 }
 
@@ -164,25 +172,27 @@ void Game::doPhysics() {
 * Draw the sprites on the screen
 */
 void Game::renderGame() {
-		//Temporal variable
+	//Temporal variable
 	GameObject currentRenderedGameElement;
 
-		//Clear the color and depth buffer
+	//Clear the color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//Bind the GLSL program. Only one code GLSL can be used at the same time
+	//Bind the GLSL program. Only one code GLSL can be used at the same time
 	_colorProgram.use();
-
 	//For each one of the elements: Each object MUST BE RENDERED based on its position, rotation and scale data
 	for (int i = 0; i < _gameElements.getNumGameElements(); i++) {			
 		currentRenderedGameElement = _gameElements.getGameElement(i);		
-			//TODO: Compute its model transformation matrix
-
-			//TODO: Pass the matrix as an uniform variable 
-			
+	
+		glm::mat4 modelMatrix;
+		modelMatrix = glm::translate(modelMatrix, currentRenderedGameElement._translate);
+		if (currentRenderedGameElement._angle != 0) {
+			modelMatrix = glm::rotate(modelMatrix, glm::radians(currentRenderedGameElement._angle), currentRenderedGameElement._rotation);
+		}
+		modelMatrix = glm::scale(modelMatrix, currentRenderedGameElement._scale);
 		
+		glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 			//Send data to GPU
 		_openGLBuffers.sendDataToGPU(_gameElements.getData(currentRenderedGameElement._objectType), _gameElements.getNumVertices(currentRenderedGameElement._objectType));
-
 	}
 
 	//Unbind the program
@@ -190,4 +200,4 @@ void Game::renderGame() {
 
 	//Swap the display buffers (displays what was just drawn)
 	_window.swapBuffer();
-}
+} 

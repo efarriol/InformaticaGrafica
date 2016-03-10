@@ -15,6 +15,8 @@ using namespace std;
 * Constructor 
 */
 Geometry::Geometry(){
+	max = 1;
+	min = -1;
 	loadCube(BLUE_CUBE, glm::vec4(0, 0, 255, 255));
 	loadCube(RED_CUBE, glm::vec4(255, 0, 0, 255));
 	loadCube(WHITE_CUBE, glm::vec4(255, 255, 255, 255));
@@ -25,61 +27,68 @@ void Geometry::loadCube(int i, glm::vec4 color)
 		_numVertices[i] = 36;
 		_verticesData[i] = new Vertex[36];
 
-		_verticesData[i][0].setPosition(0, 0, 0);
-		_verticesData[i][1].setPosition(1, 0, 0);
-		_verticesData[i][2].setPosition(0, 1, 0);
+		_verticesData[i][0].setPosition(min, min, min);
+		_verticesData[i][1].setPosition(max, min, min);
+		_verticesData[i][2].setPosition(min, max, min);
 
-		_verticesData[i][3].setPosition(1, 0, 0);
-		_verticesData[i][4].setPosition(1, 1, 0);
-		_verticesData[i][5].setPosition(0, 1, 0);
+		_verticesData[i][3].setPosition(max, min, min);
+		_verticesData[i][4].setPosition(max, max, min);
+		_verticesData[i][5].setPosition(min, max, min);
 
-		_verticesData[i][6].setPosition(1, 0, 0);
-		_verticesData[i][7].setPosition(1, 0, 1);
-		_verticesData[i][8].setPosition(1, 1, 0);
+		_verticesData[i][6].setPosition(max, min, min);
+		_verticesData[i][7].setPosition(max, min, max);
+		_verticesData[i][8].setPosition(max, max, min);
 
-		_verticesData[i][9].setPosition(1, 0, 1);
-		_verticesData[i][10].setPosition(1, 1, 1);
-		_verticesData[i][11].setPosition(1, 1, 0);
+		_verticesData[i][9].setPosition(max, min, max);
+		_verticesData[i][10].setPosition(max, max, max);
+		_verticesData[i][11].setPosition(max, max, min);
 
-		_verticesData[i][12].setPosition(1, 0, 1);
-		_verticesData[i][13].setPosition(0, 0, 1);
-		_verticesData[i][14].setPosition(1, 1, 1);
+		_verticesData[i][12].setPosition(max, min, max);
+		_verticesData[i][13].setPosition(min, min, max);
+		_verticesData[i][14].setPosition(max, max, max);
 
-		_verticesData[i][15].setPosition(0, 0, 1);
-		_verticesData[i][16].setPosition(0, 1, 1);
-		_verticesData[i][17].setPosition(1, 1, 1);
+		_verticesData[i][15].setPosition(min, min, max);
+		_verticesData[i][16].setPosition(min, max, max);
+		_verticesData[i][17].setPosition(max, max, max);
 
-		_verticesData[i][18].setPosition(0, 0, 1);
-		_verticesData[i][19].setPosition(0, 0, 0);
-		_verticesData[i][20].setPosition(0, 1, 1);
+		_verticesData[i][18].setPosition(min, min, max);
+		_verticesData[i][19].setPosition(min, min, min);
+		_verticesData[i][20].setPosition(min, max, max);
 
-		_verticesData[i][21].setPosition(0, 0, 0);
-		_verticesData[i][22].setPosition(0, 1, 0);
-		_verticesData[i][23].setPosition(0, 1, 1);
+		_verticesData[i][21].setPosition(min, min, min);
+		_verticesData[i][22].setPosition(min, max, min);
+		_verticesData[i][23].setPosition(min, max, max);
 
-		_verticesData[i][24].setPosition(0, 1, 0);
-		_verticesData[i][25].setPosition(1, 1, 0);
-		_verticesData[i][26].setPosition(0, 1, 1);
+		_verticesData[i][24].setPosition(min, max, min);
+		_verticesData[i][25].setPosition(max, max, min);
+		_verticesData[i][26].setPosition(min, max, max);
 
-		_verticesData[i][27].setPosition(1, 1, 0);
-		_verticesData[i][28].setPosition(1, 1, 1);
-		_verticesData[i][29].setPosition(0, 1, 1);
+		_verticesData[i][27].setPosition(max, max, min);
+		_verticesData[i][28].setPosition(max, max, max);
+		_verticesData[i][29].setPosition(min, max, max);
 
-		_verticesData[i][30].setPosition(0, 0, 0);
-		_verticesData[i][31].setPosition(0, 0, 1);
-		_verticesData[i][32].setPosition(1, 0, 1);
+		_verticesData[i][30].setPosition(min, min, min);
+		_verticesData[i][31].setPosition(min, min, max);
+		_verticesData[i][32].setPosition(max, min, max);
 
-		_verticesData[i][33].setPosition(0, 0, 0);
-		_verticesData[i][34].setPosition(1, 0, 1);
-		_verticesData[i][35].setPosition(1, 0, 0);
+		_verticesData[i][33].setPosition(min, min, min);
+		_verticesData[i][34].setPosition(max, min, max);
+		_verticesData[i][35].setPosition(max, min, min);
 
-		for (int j = 0; j < 36; j++) _verticesData[i][j].setColor[color];
+		for (int j = 0; j < 36; j++) _verticesData[i][j].setColor(color.x, color.y, color.z, color.w);
+}
+
+void Geometry::loadPyramid(int pyramid, glm::vec4 color)
+{
+
 }
 
 
 
 Geometry::~Geometry(){
-	
+	for (int i = 0; i < NUMBASICOBJECTS; i++) {
+		delete _verticesData[i];
+	}
 }
 
 /*
@@ -90,16 +99,15 @@ void Geometry::loadGameElements(char fileName[100]){
 	<number of game elements>
 	<type of game element> <vec3 position> <angle> <vec3 rotation> <vec3 scale>	
 	*/  
-	int numGameElements;
 	GameObject tempObject;
 	glm::vec3 vector3fElements;
 	ifstream file;
 	file.open(fileName);
-
+	
 	if (file.is_open()){
 		//TODO: Read the content and add it into the data structure
 		file >> tempObject._objectType;
-		for (int i = 0; i < numGameElements; i++) {
+		for (int i = 0; i < NUMBASICOBJECTS; i++) {
 			file >> tempObject._objectType >> tempObject._translate.x >> tempObject._translate.y >> tempObject._translate.z >> tempObject._angle
 				>> tempObject._rotation.x >> tempObject._rotation.y >> tempObject._rotation.z >> tempObject._scale.x >> tempObject._scale.y >> tempObject._scale.z;
 			_listOfObjects.push_back(tempObject);
